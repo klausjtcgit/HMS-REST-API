@@ -4,15 +4,55 @@ import { ResponseModel } from "../models/response.model";
 import { DefaultExceptionModel, ValidationExceptionModel } from "../models/exception.model";
 
 export function globalExceptionHandler(error: any, next: NextFunction) {
-  const _error: ResponseModel = new ResponseModel({
-    success: false,
-    status: error.status,
-    result: {
-      errors: error.errors,
-    },
-  });
+  const errors: (DefaultExceptionModel | ValidationExceptionModel)[] = [];
 
-  next(_error);
+  if (error.result && error.result.errors) {
+    error = { ...error };
+  } else if (error.code === 11000) {
+    const key: string = Object.keys(error.keyValue)[0];
+    const value: string = error.keyValue[key];
+
+    errors.push(
+      new ValidationExceptionModel({
+        type: ErrorTypes.DUPLICATED,
+        message: `The specified value for the field ${key}: ${value} already exists.`,
+        field: key,
+        value: value,
+      })
+    );
+  } else if (error && error.errors && Object.keys(error.errors).length) {
+    Object.keys(error.errors).forEach((key) => {
+      errors.push(
+        new ValidationExceptionModel({
+          type:
+            error.errors[key]["kind"] === "required"
+              ? ErrorTypes.MISSING_DATA
+              : ErrorTypes.INVALID_DATA,
+          message: error.errors[key]["message"],
+          field: key,
+          value: error.errors[key]["value"],
+        })
+      );
+    });
+  }
+
+  if (!errors.length)
+    errors.push(
+      new DefaultExceptionModel({
+        type: ErrorTypes.UNKNOWN,
+        message: `Sorry, something went wrong on our end. Please try again or contact admin.`,
+      })
+    );
+
+  next(
+    new ResponseModel({
+      success: false,
+      status: error.status ?? HTTPStatusCodes.INTERNAL_SERVER_ERROR,
+      result: {
+        errors: errors,
+      },
+    })
+  );
 }
 
 export function notFoundExceptionHandler(resource: string): never {
