@@ -1,5 +1,159 @@
 export const MAX_LIMIT = 50;
 
+export enum JobTitles {
+  generalManager = "general manager",
+  supervisor = "supervisor",
+  accommodationSupervisor = "accommodation supervisor",
+  reception = "reception",
+  housekeeper = "housekeeper",
+  security = "security",
+  restaurantSupervisor = "restaurant supervisor",
+  cashier = "cashier",
+  waiter = "waiter",
+  chef = "chef",
+  cook = "cook",
+  steward = "steward",
+  trainee = "trainee",
+  handyman = "handyman",
+  storekeeper = "storekeeper",
+  softwareAdmin = "software admin",
+}
+export const JobTitlesMapping: Record<string, JobTitles> = {
+  "general manager": JobTitles.generalManager,
+  supervisor: JobTitles.supervisor,
+  "accommodation supervisor": JobTitles.accommodationSupervisor,
+  reception: JobTitles.reception,
+  housekeeper: JobTitles.housekeeper,
+  security: JobTitles.security,
+  "restaurant supervisor": JobTitles.restaurantSupervisor,
+  cashier: JobTitles.cashier,
+  waiter: JobTitles.waiter,
+  chef: JobTitles.chef,
+  cook: JobTitles.cook,
+  steward: JobTitles.steward,
+  trainee: JobTitles.trainee,
+  handyman: JobTitles.handyman,
+  storekeeper: JobTitles.storekeeper,
+  "software admin": JobTitles.softwareAdmin,
+};
+
+export enum EmployeePermissions {
+  registerGuest = "register guest",
+  updateGuestInfo = "update guest info",
+  createRoom = "create room",
+  updateRoomInfo = "update room info",
+  updateRoomStatus = "update room status",
+
+  bookingARoom = "booking a room",
+  giftBookingARoom = "gift booking a room",
+  voidBookingARoom = "void booking a room",
+  updateBookingInfo = "update booking info",
+  updateBookingPrice = "update booking price",
+
+  acceptAccommodationPayment = "accept accommodation payment",
+  updateAccommodationPayment = "update accommodation payment",
+
+  makeMenu = "make menu",
+  updateMenu = "update menu",
+  updateMenuPrice = "update menu price",
+
+  viewMyOrder = "view my order",
+  viewAllOrder = "view all order",
+  postOrder = "post order",
+  updateOrder = "update order",
+  updateAllOrder = "update all order",
+  giftOrder = "gift order",
+  voidOrder = "void order",
+  transferOrder = "transfer order",
+
+  acceptRestaurantPayment = "accept restaurant payment",
+  updateRestaurantPayment = "update restaurant payment",
+
+  addItemToInventory = "add item to inventory",
+  updateItemInfo = "update item info",
+
+  makeMenuVsRecipe = "make menu vs recipe",
+  spoilageMiscellaneousUsage = "spoilage miscellaneous usage",
+
+  issueItem = "issue item",
+  updateIssue = "update issue",
+
+  purchaseItem = "purchase item",
+  updatePurchase = "update purchase",
+
+  registerEmployee = "register employee",
+  updateEmployeeInfo = "update employee info",
+  updateEmployeePermissions = "update employee permission",
+
+  addExpense = "add expense",
+  updateExpense = "update expense",
+
+  verifyPayment = "verify payment",
+  generateMyReport = "generate my report",
+  generateAccommodationReport = "generate accommodation report",
+  generateRestaurantReport = "generate restaurant report",
+  generateInventoryReport = "generate inventory report",
+  generateGeneralReport = "generate general report",
+}
+export const EmployeePermissionsMapping: Record<string, EmployeePermissions> = {
+  "register guest": EmployeePermissions.registerGuest,
+  "update guest info": EmployeePermissions.updateGuestInfo,
+  "create room": EmployeePermissions.createRoom,
+  "update room info": EmployeePermissions.updateRoomInfo,
+  "update room status": EmployeePermissions.updateRoomStatus,
+
+  "booking a room": EmployeePermissions.bookingARoom,
+  "gift booking a room": EmployeePermissions.giftBookingARoom,
+  "void booking a room": EmployeePermissions.voidBookingARoom,
+  "update booking info": EmployeePermissions.updateBookingInfo,
+  "update booking price": EmployeePermissions.updateBookingPrice,
+
+  "accept accommodation payment": EmployeePermissions.acceptAccommodationPayment,
+  "update accommodation payment": EmployeePermissions.updateAccommodationPayment,
+
+  "make menu": EmployeePermissions.makeMenu,
+  "update menu": EmployeePermissions.updateMenu,
+  "update menu price": EmployeePermissions.updateMenuPrice,
+
+  "view my order": EmployeePermissions.viewMyOrder,
+  "view all order": EmployeePermissions.viewAllOrder,
+  "post order": EmployeePermissions.postOrder,
+  "update order": EmployeePermissions.updateOrder,
+  "update all order": EmployeePermissions.updateAllOrder,
+  "gift order": EmployeePermissions.giftOrder,
+  "void order": EmployeePermissions.voidOrder,
+  "transfer order": EmployeePermissions.transferOrder,
+
+  "accept restaurant payment": EmployeePermissions.acceptRestaurantPayment,
+  "update restaurant payment": EmployeePermissions.updateRestaurantPayment,
+
+  "add item to inventory": EmployeePermissions.addItemToInventory,
+  "update item info": EmployeePermissions.updateItemInfo,
+
+  "make menu vs recipe": EmployeePermissions.makeMenuVsRecipe,
+  "spoilage miscellaneous usage": EmployeePermissions.spoilageMiscellaneousUsage,
+
+  "issue item": EmployeePermissions.issueItem,
+  "update issue": EmployeePermissions.updateIssue,
+
+  "purchase item": EmployeePermissions.purchaseItem,
+  "update purchase": EmployeePermissions.updatePurchase,
+
+  "register employee": EmployeePermissions.registerEmployee,
+  "update employee info": EmployeePermissions.updateEmployeeInfo,
+  "update employee permission": EmployeePermissions.updateEmployeePermissions,
+
+  "add expense": EmployeePermissions.addExpense,
+  "update expense": EmployeePermissions.updateExpense,
+
+  "verify payment": EmployeePermissions.verifyPayment,
+  "generate my report": EmployeePermissions.generateMyReport,
+  "generate accommodation report": EmployeePermissions.generateAccommodationReport,
+  "generate restaurant report": EmployeePermissions.generateRestaurantReport,
+  "generate inventory report": EmployeePermissions.generateInventoryReport,
+  "generate general report": EmployeePermissions.generateGeneralReport,
+};
+
 export enum ErrorTypes {
   UNAUTHENTICATED = "unauthenticated",
   UNAUTHORIZED = "unauthorized",
