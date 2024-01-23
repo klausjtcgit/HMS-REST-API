@@ -7,7 +7,7 @@ export function globalExceptionHandler(error: any, next: NextFunction) {
   const errors: (DefaultExceptionModel | ValidationExceptionModel)[] = [];
 
   if (error.result && error.result.errors) {
-    error = { ...error };
+    errors.push(...error.result.errors);
   } else if (error.code === 11000) {
     const key: string = Object.keys(error.keyValue)[0];
     const value: string = error.keyValue[key];
