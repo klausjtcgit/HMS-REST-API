@@ -41,7 +41,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/klausjtcgit/hms-restapi.git"
+    "url": "git+https://github.com/klausjtcgit/HMS-REST-API.git"
   },
   "keywords": [
     "hotel",
@@ -69,7 +69,7 @@
   "author": "klausJTC",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/klausjtcgit/hms-restapi/issues"
+    "url": "https://github.com/klausjtcgit/HMS-REST-API.git/issues"
   },
-  "homepage": "https://github.com/klausjtcgit/hms-restapi#readme"
+  "homepage": "https://github.com/klausjtcgit/HMS-REST-API.git#readme"
 }
