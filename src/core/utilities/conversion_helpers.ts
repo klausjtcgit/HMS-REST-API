@@ -21,8 +21,7 @@ export const toDatetime = (rawInput: any): Date | undefined => {
 export const stringifyDate = (date: Date = new Date()): string =>
   `${date.toLocaleString("en-CA", {
     hour12: false,
-    timeStyle: "full",
-  })}${date.getMilliseconds()}`.replace(", ", "T");
+  })}.${date.getMilliseconds().toString().padStart(3, "0")}`.replace(", ", "T");
 
 /**
  * Convert a query object into a QueryModel.
