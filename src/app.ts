@@ -36,9 +36,8 @@ export class App {
   }
 
   private async connectToDatabase() {
-    if (this.env !== "production") {
-      set("debug", true);
-    }
+    if (this.env === "development") set("debug", true);
+    else set("debug", false);
 
     await connect(databaseConnection.url);
   }

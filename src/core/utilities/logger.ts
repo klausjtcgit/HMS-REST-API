@@ -1,5 +1,8 @@
 import winston from "winston";
 import { stringifyDate } from "./conversion_helpers";
+import { NODE_ENV } from "../configuration";
+
+const env: string = NODE_ENV!;
 
 const config = {
   levels: {
@@ -27,15 +30,19 @@ export const wLogger = (name: string, isAudit: boolean = false): winston.Logger 
   winston.createLogger({
     levels: config.levels,
     transports: [
-      new winston.transports.Console({
-        level: "silly",
-        format: winston.format.combine(
-          winston.format.printf(
-            (info) => `${stringifyDate()} ${info.level.toLocaleUpperCase()}: ${info.message}`
-          ),
-          winston.format.colorize({ all: true })
-        ),
-      }),
+      ...(env === "development"
+        ? [
+            new winston.transports.Console({
+              level: "silly",
+              format: winston.format.combine(
+                winston.format.printf(
+                  (info) => `${stringifyDate()} ${info.level.toLocaleUpperCase()}: ${info.message}`
+                ),
+                winston.format.colorize({ all: true })
+              ),
+            }),
+          ]
+        : []),
 
       new winston.transports.File({
         filename: `./logs/${name}.error.log`,
