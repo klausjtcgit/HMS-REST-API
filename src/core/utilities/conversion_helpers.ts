@@ -102,9 +102,20 @@ export const toQueryModel = (query: any): QueryModel => {
       // TODO: indicate in the readme.md that filter with those fields is will be ignored.
       // & the reason being we use those words as a key word.
       if (
-        !["select", "fields", "project", "show", "sort", "order", "sortBy", "orderBy"].includes(key)
+        ![
+          "select",
+          "fields",
+          "project",
+          "show",
+          "sort",
+          "order",
+          "sortBy",
+          "orderBy",
+          "limit",
+          "skip",
+        ].includes(key)
       ) {
-        let index = accumulated.findIndex((field) => field[0] === key);
+        let index = accumulated.findIndex((field) => field[0] === key.split(/[><!]/)[0]);
 
         if (index === -1) {
           accumulated.push([key.split(/[><!]/)[0], {}]);
@@ -132,7 +143,6 @@ export const toQueryModel = (query: any): QueryModel => {
           }
         }
       }
-
       return accumulated;
     }, [] as [string, TFilterValue][])
   );
