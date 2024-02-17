@@ -1,19 +1,10 @@
 import winston from "winston";
-import { stringifyDate } from "./conversion_helpers";
 import { NODE_ENV } from "../configuration";
 
 const env: string = NODE_ENV!;
 
 const config = {
-  levels: {
-    error: 0,
-    warn: 1,
-    debug: 2,
-    data: 3,
-    info: 4,
-    verbose: 5,
-    silly: 6,
-  },
+  levels: { error: 0, warn: 1, debug: 2, data: 3, info: 4, verbose: 5, silly: 6 },
   colors: {
     error: "red",
     debug: "blue",
@@ -26,18 +17,15 @@ const config = {
 };
 
 winston.addColors(config.colors);
-export const wLogger = (name: string, isAudit: boolean = false): winston.Logger =>
+export const wLogger = (name: string): winston.Logger =>
   winston.createLogger({
     levels: config.levels,
     transports: [
       ...(env === "development"
         ? [
             new winston.transports.Console({
-              level: "silly",
               format: winston.format.combine(
-                winston.format.printf(
-                  (info) => `${stringifyDate()} ${info.level.toLocaleUpperCase()}: ${info.message}`
-                ),
+                winston.format.printf((info) => `${info.message}`),
                 winston.format.colorize({ all: true })
               ),
             }),
@@ -45,35 +33,12 @@ export const wLogger = (name: string, isAudit: boolean = false): winston.Logger 
         : []),
 
       new winston.transports.File({
-        filename: `./logs/${name}.error.log`,
-        level: "error",
-        format: winston.format.printf(
-          (info) => `${stringifyDate()} ${info.level.toLocaleUpperCase()}: ${info.message}`
-        ),
+        filename: `./logs/${name}.log`,
+        format: winston.format.printf((info) => `${info.message}`),
       }),
-
       new winston.transports.File({
-        filename: `./logs/${name}.warn.log`,
-        level: "warn",
-        format: winston.format.printf(
-          (info) => `${stringifyDate()} ${info.level.toLocaleUpperCase()}: ${info.message}`
-        ),
-      }),
-
-      new winston.transports.File({
-        filename: `./logs/${name}.debug.log`,
-        level: "debug",
-        format: winston.format.printf(
-          (info) => `${stringifyDate()} ${info.level.toLocaleUpperCase()}: ${info.message}`
-        ),
-      }),
-
-      new winston.transports.File({
-        filename: `./logs/${name}.${isAudit ? "audit" : "data"}.log`,
-        level: "data",
-        format: winston.format.printf(
-          (info) => `${stringifyDate()} ${info.level.toLocaleUpperCase()}: ${info.message}`
-        ),
+        filename: `./logs/all.log`,
+        format: winston.format.printf((info) => `${info.message}`),
       }),
     ],
   });
