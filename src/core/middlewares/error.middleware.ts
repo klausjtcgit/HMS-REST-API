@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { HTTPStatusCodes } from "../constants";
+import { ErrorTypes, HTTPCodesMapping } from "../constants";
 import { ResponseModel } from "../models/response.model";
 
 export const errorMiddleware = (
@@ -9,5 +9,7 @@ export const errorMiddleware = (
   next: NextFunction
 ) => {
   // istanbul ignore next
-  res.status(error.status || HTTPStatusCodes.INTERNAL_SERVER_ERROR).json(error);
+  res
+    .status(HTTPCodesMapping[error.errors?.[0]?.type ?? ErrorTypes.INTERNAL_SERVER_ERROR])
+    .json(error);
 };

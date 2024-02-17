@@ -1,26 +1,22 @@
-import { HTTPStatusCodes } from "../constants";
-import { DefaultExceptionModel, ValidationExceptionModel } from "./exception.model";
+import { DefaultExceptionModel } from "./exception.model";
 
 interface IResponse {
   success: boolean;
-  status: HTTPStatusCodes;
-  result?: {
-    data?: any;
-    errors?: (DefaultExceptionModel | ValidationExceptionModel)[];
-  };
-  meta?: any;
+  message: string;
+  data?: any;
+  errors?: DefaultExceptionModel[];
 }
 
 export class ResponseModel implements IResponse {
-  public success;
-  public result;
-  public status;
-  public meta;
+  public success: boolean;
+  public message: string;
+  public data: any | undefined;
+  public errors: DefaultExceptionModel[] | undefined;
 
-  constructor({ success, status, result, meta }: IResponse) {
+  constructor({ success, message, data, errors }: IResponse) {
     this.success = success;
-    this.status = status;
-    this.result = result;
-    this.meta = meta;
+    this.message = message;
+    this.data = data;
+    this.errors = errors;
   }
 }
