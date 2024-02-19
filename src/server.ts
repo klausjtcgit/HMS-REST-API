@@ -12,6 +12,7 @@ import {
 } from "./core/utilities/exception_handler";
 import { DefaultExceptionModel } from "./core/models/exception.model";
 import { EmployeeIndexRoute } from "./resources/employee/index.route";
+import { AuthIndexRoute } from "./resources/auth/index.route";
 
 export const sampleRoute: Router = Router();
 
@@ -51,7 +52,11 @@ sampleRoute.all("/", async (req: Request, res: Response, next: NextFunction) => 
   }
 });
 
-export const app: App = new App([{ router: sampleRoute }, new EmployeeIndexRoute()]);
+export const app: App = new App([
+  { router: sampleRoute },
+  new EmployeeIndexRoute(),
+  new AuthIndexRoute(),
+]);
 
 const server = app.listen();
 

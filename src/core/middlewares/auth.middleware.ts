@@ -23,22 +23,24 @@ export const authMiddleware = (requiredPermissions: string[]) => {
       else {
         const decoded = jwt.verify(accessToken, TOKEN_KEY as Secret) as any;
 
-        const notPermitted: string[] = [];
+        if (requiredPermissions.length > 0) {
+          const notPermitted: string[] = [];
 
-        if (requiredPermissions) {
           requiredPermissions.forEach((requiredPermission: string) => {
             if (!decoded.permissions.includes(requiredPermission))
               notPermitted.push(requiredPermission);
           });
 
-          if (notPermitted.length === 0) next();
-          else {
+          if (notPermitted.length === 0) {
+            req.body.requesterId = decoded._id;
+            next();
+          } else {
             unauthorizedExceptionHandler();
           }
+        } else {
+          req.body.requesterId = decoded._id;
+          next();
         }
-
-        req.body.requesterId = decoded._id;
-        next();
       }
     } catch (error) {
       unauthenticatedExceptionHandler();
