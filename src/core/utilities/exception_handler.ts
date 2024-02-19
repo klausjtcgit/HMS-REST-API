@@ -2,8 +2,6 @@ import { NextFunction } from "express";
 import { HTTPCodes, ErrorTypes } from "../constants";
 import { ResponseModel } from "../models/response.model";
 import { DefaultExceptionModel } from "../models/exception.model";
-import { stringifyDate } from "./conversion_helpers";
-import { ILog } from "../interfaces/log.interface";
 import { isEmpty } from "./utilities";
 
 export function globalExceptionHandler(error: any, next: NextFunction) {
@@ -61,15 +59,6 @@ export function globalExceptionHandler(error: any, next: NextFunction) {
           })
         );
       }
-
-      const log: ILog = {
-        type: `error`,
-        at: stringifyDate(new Date()),
-        who: `system`,
-        feature: `error.globalHandler`,
-        action: `report`,
-        data: errors,
-      };
 
       next(
         new ResponseModel({

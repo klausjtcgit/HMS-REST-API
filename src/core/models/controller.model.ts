@@ -147,7 +147,7 @@ export class ControllerModel<
         new ResponseModel({
           success: true,
           message: `${pluralize(this.resourceName)} retrieved successfully.`,
-          data: { retrieved: sanitizedResources, matchCount: resources.length },
+          data: { retrieved: sanitizedResources, matchCount: sanitizedResources.length },
         })
       );
     } catch (error) {
