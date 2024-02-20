@@ -33,7 +33,7 @@ export class ServiceModel<IDocument extends Document> {
     };
 
     let currentIndex: number = 0;
-    let failSafe: number = newDocuments.length;
+    let failsafe: number = newDocuments.length;
 
     while (newDocuments.length >= currentIndex) {
       try {
@@ -67,9 +67,13 @@ export class ServiceModel<IDocument extends Document> {
       }
 
       // I just can't trust my code. you know what I mean 😅
-      failSafe -= 1;
-      if (failSafe === 0) break;
+      failsafe -= 1;
+      if (failsafe === 0) break;
     }
+
+    insertionResult.inserted.forEach((document: IDocument) => {
+      this.auditLogger("create", document.toObject());
+    });
 
     insertionResult.insertedCount = insertionResult.inserted.length;
     insertionResult.notInsertedCount = insertionResult.notInserted.length;
@@ -121,7 +125,12 @@ export class ServiceModel<IDocument extends Document> {
         try {
           await documents[i].save();
           updated.push(documents[i]);
-          this.auditLogger("update", changes);
+          this.auditLogger("update", {
+            _id: documents[i].id,
+            updatedAt: update.updatedAt,
+            updatedBy: update.updatedBy,
+            ...changes,
+          });
         } catch (error: any) {
           if (error.name === "ValidationError" || error.code === 11000) throw error;
           else notUpdated.push({ document: oldDocument, reason: error.toString() });
@@ -157,7 +166,12 @@ export class ServiceModel<IDocument extends Document> {
     if (hasChanges) {
       try {
         await document.save();
-        this.auditLogger("update", changes);
+        this.auditLogger("update", {
+          _id: document.id,
+          updatedAt: update.updatedAt,
+          updatedBy: update.updatedBy,
+          changes,
+        });
 
         return { updated: [document], notUpdated: [], updatedCount: 1, notUpdatedCount: 0 };
       } catch (error: any) {
@@ -199,7 +213,13 @@ export class ServiceModel<IDocument extends Document> {
       try {
         await documents[i].save();
         deleted.push(documents[i]);
-        this.auditLogger("delete", changes);
+        this.auditLogger("delete", {
+          _id: documents[i].id,
+          updatedAt: update.deletedAtAt,
+          updatedBy: deletedBy,
+          changes,
+          ...changes,
+        });
       } catch (error: any) {
         notDeleted.push({
           document: oldDocument,
@@ -228,7 +248,13 @@ export class ServiceModel<IDocument extends Document> {
 
     try {
       await document.save();
-      this.auditLogger("delete", changes);
+      this.auditLogger("delete", {
+        _id: document.id,
+        updatedAt: update.deletedAtAt,
+        updatedBy: deletedBy,
+        changes,
+        ...changes,
+      });
 
       return { deleted: [document], notDeleted: [], deletedCount: 1, notDeletedCount: 0 };
     } catch (error: any) {
