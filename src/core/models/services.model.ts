@@ -178,8 +178,8 @@ export class ServiceModel<IDocument extends Document> {
         return {
           updated: [],
           notUpdated: [{ document: oldDocument, reason: error.toString() }],
-          updatedCount: 1,
-          notUpdatedCount: 0,
+          updatedCount: 0,
+          notUpdatedCount: 1,
         };
       }
     } else
@@ -192,8 +192,8 @@ export class ServiceModel<IDocument extends Document> {
               "No changes were made because the provided data is the same as the current data",
           },
         ],
-        updatedCount: 1,
-        notUpdatedCount: 0,
+        updatedCount: 0,
+        notUpdatedCount: 1,
       };
   }
 
@@ -261,8 +261,8 @@ export class ServiceModel<IDocument extends Document> {
       return {
         deleted: [],
         notDeleted: [{ document: oldDocument, reason: error.toString() }],
-        deletedCount: 1,
-        notDeletedCount: 0,
+        deletedCount: 0,
+        notDeletedCount: 1,
       };
     }
   }

@@ -73,7 +73,7 @@ export class ControllerModel<
       const resource: IDocument = await this.service.create({
         ...req.body,
         [`${this.createdAlias}At`]: new Date(),
-        [`${this.createdAlias}By`]: req.body.employee__id ?? defaultWriter,
+        [`${this.createdAlias}By`]: req.body.requesterId ?? defaultWriter,
       });
 
       const { code, password, deleted, ...sanitizedResource } = resource.toObject();
@@ -97,7 +97,7 @@ export class ControllerModel<
           return {
             ...resource,
             [`${this.createdAlias}At`]: new Date(),
-            [`${this.createdAlias}By`]: req.body.employee__id ?? defaultWriter,
+            [`${this.createdAlias}By`]: req.body.requesterId ?? defaultWriter,
           };
         })
       );
@@ -179,7 +179,12 @@ export class ControllerModel<
 
   patch = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { employee__id, deleted, ...update } = req.body;
+      const { requesterId, deleted, ...update } = req.body;
+
+      delete update[`${this.createdAlias}At`];
+      delete update[`${this.createdAlias}By`];
+      delete update.updatedAt;
+      delete update.updatedBy;
 
       if (isEmpty(update)) {
         noUpdateExceptionHandler(pluralize(this.resourceName));
@@ -187,7 +192,7 @@ export class ControllerModel<
         const result = this.patchResultSanitizer(
           await this.service.update(toQueryModel(req.query), {
             ...update,
-            updatedBy: employee__id ?? defaultWriter,
+            updatedBy: requesterId ?? defaultWriter,
             updatedAt: new Date(),
           })
         );
@@ -220,7 +225,12 @@ export class ControllerModel<
 
   patchById = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const { employee__id, deleted, ...update } = req.body;
+      const { requesterId, deleted, ...update } = req.body;
+
+      delete update[`${this.createdAlias}At`];
+      delete update[`${this.createdAlias}By`];
+      delete update.updatedAt;
+      delete update.updatedBy;
 
       if (!isObjectId(req.params._id)) {
         invalidObjectIdExceptionHandler(req.params._id);
@@ -230,7 +240,7 @@ export class ControllerModel<
         const result = this.patchResultSanitizer(
           await this.service.updateById(req.params._id!.toString(), {
             ...update,
-            updatedBy: employee__id ?? defaultWriter,
+            updatedBy: requesterId ?? defaultWriter,
             updatedAt: new Date(),
           })
         );
@@ -239,7 +249,7 @@ export class ControllerModel<
           result.updatedCount > 0
             ? `${this.resourceName} updated successfully.`
             : result.notUpdatedCount > 0
-            ? `No changes were made because the provided data is the same as the current data.`
+            ? `No changes were made because the provided data is the same as the current data or invalid data.`
             : `No ${this.resourceName} matched for the update.`;
 
         res.status(HTTPCodes.OK).json(
@@ -258,7 +268,7 @@ export class ControllerModel<
   delete = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const result = this.deleteResultSanitizer(
-        await this.service.delete(toQueryModel(req.query), req.body.employee__id)
+        await this.service.delete(toQueryModel(req.query), req.body.requesterId)
       );
 
       const message: string =
@@ -288,7 +298,7 @@ export class ControllerModel<
         invalidObjectIdExceptionHandler(req.params._id);
       } else {
         const result = this.deleteResultSanitizer(
-          await this.service.deleteById(req.params._id!.toString(), req.body.employee__id)
+          await this.service.deleteById(req.params._id!.toString(), req.body.requesterId)
         );
 
         const message: string =
