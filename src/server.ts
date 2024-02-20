@@ -13,6 +13,7 @@ import {
 import { DefaultExceptionModel } from "./core/models/exception.model";
 import { EmployeeIndexRoute } from "./resources/employee/index.route";
 import { AuthIndexRoute } from "./resources/auth/index.route";
+import { AccommodationIndexRoute } from "./resources/accommodation/index.route";
 
 export const sampleRoute: Router = Router();
 
@@ -56,6 +57,7 @@ export const app: App = new App([
   { router: sampleRoute },
   new EmployeeIndexRoute(),
   new AuthIndexRoute(),
+  new AccommodationIndexRoute(),
 ]);
 
 const server = app.listen();
