@@ -154,6 +154,44 @@ export const EmployeePermissionsMapping: Record<string, EmployeePermissions> = {
   "generate general report": EmployeePermissions.generateGeneralReport,
 };
 
+export enum RoomTypes {
+  single = "single",
+  double = "double",
+  twin = "twin",
+  triple = "triple",
+  deluxe = "deluxe",
+  family = "family",
+  executive = "executive",
+}
+export const RoomTypesMapping: Record<string, RoomTypes> = {
+  single: RoomTypes.single,
+  double: RoomTypes.double,
+  twin: RoomTypes.twin,
+  triple: RoomTypes.triple,
+  deluxe: RoomTypes.deluxe,
+  family: RoomTypes.family,
+  executive: RoomTypes.executive,
+};
+
+export enum OccupancyStatuses {
+  vacant = "vacant",
+  checkIn = "check-in",
+  occupied = "occupied",
+  checkOut = "check-out",
+  reserved = "reserved",
+  blocked = "blocked",
+  maintenance = "maintenance",
+}
+export const OccupancyStatusesMapping: Record<string, OccupancyStatuses> = {
+  vacant: OccupancyStatuses.vacant,
+  "check-in": OccupancyStatuses.checkIn,
+  occupied: OccupancyStatuses.occupied,
+  "check-out": OccupancyStatuses.checkOut,
+  reserved: OccupancyStatuses.reserved,
+  blocked: OccupancyStatuses.blocked,
+  maintenance: OccupancyStatuses.maintenance,
+};
+
 export enum ErrorTypes {
   CONTINUE = "CONTINUE",
   SWITCHING_PROTOCOLS = "SWITCHING_PROTOCOLS",
