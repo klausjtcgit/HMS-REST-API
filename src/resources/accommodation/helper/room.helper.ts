@@ -20,6 +20,7 @@ export const auditLogging: LoggingFunction = (action: TLogAction, data: TMap): v
 
 export const getRoomFilter: FilterExtractorFunction = (input: {
   _ids?: TFilterValue;
+  numbers?: TFilterValue;
   number?: TFilterValue;
   type?: TFilterValue;
   floor?: TFilterValue;
@@ -31,8 +32,11 @@ export const getRoomFilter: FilterExtractorFunction = (input: {
   if (input._ids !== undefined && input._ids.equal !== undefined) {
     filter._id = { $in: input._ids.equal.replace(" ", "").split(",") };
   } else {
-    if (input.number !== undefined && input.number.equal !== undefined)
+    if (input.numbers !== undefined && input.numbers.equal !== undefined)
+      filter.number = { $in: input.numbers.equal.replace(" ", "").split(",") };
+    else if (input.number !== undefined && input.number.equal !== undefined)
       filter.number = input.number.equal;
+
     if (input.type !== undefined && input.type.equal !== undefined) filter.type = input.type.equal;
     if (input.floor !== undefined && input.floor.equal !== undefined)
       filter.floor = input.floor.equal;
